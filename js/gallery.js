@@ -81,21 +81,30 @@ list.insertAdjacentHTML("beforeend", createMarkup(images));
 list.addEventListener("click", handle);
 
 function handle(event) {
-    if (event.currentTarget === event.target) {
-        return;
-    } 
-
-    const currentProduct = event.target.closest(".gallery-item");
+    if (event.target.classList.contains('gallery-image')) {
+        const currentProduct = event.target.closest(".gallery-item");
+        
     const productData = currentProduct.dataset.source;
-
-    const product = images.find(({ original }) => original === productData);
-
+        
     const instance = basicLightbox.create(`
     <div class="modal">
-        <img class="gallery-image" src="${product.original}" alt="${product.description}" />
+        <img class="gallery-image" src="${currentProduct.original}" alt="${currentProduct.description}" />
     </div>
     `);
-    instance.show();
+        instance.show();
+
+         const closeOnEscape = function (event) {
+            if (event.key === "Escape") {
+                instance.close();
+                document.removeEventListener("keydown", closeOnEscape);
+            }
+        };
+
+        document.addEventListener("keydown", closeOnEscape);
+
 }
+    } 
+
+   
 
 
