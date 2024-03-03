@@ -81,6 +81,7 @@ list.insertAdjacentHTML("beforeend", createMarkup(images));
 list.addEventListener("click", handle);
 
 function handle(event) {
+    event.preventDefault()
     if (event.target.classList.contains('gallery-image')) {
         const currentProduct = event.target.closest(".gallery-item");
         
@@ -88,7 +89,7 @@ function handle(event) {
         
     const instance = basicLightbox.create(`
     <div class="modal">
-        <img class="gallery-image" src="${currentProduct.original}" alt="${currentProduct.description}" />
+        <img class="gallery-image" src="${event.target.dataset.source}" alt="${event.target.alt}" />
     </div>
     `);
         instance.show();
